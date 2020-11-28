@@ -10,6 +10,7 @@ port = int(sys.argv[1])
 Id = sys.argv[2]
 
 def taskRun(taskData):
+    print('hello',taskData)
     dur = int(taskData['duration'])
     time.sleep(dur)
     dataToSend =  taskData['task_id'] + " " +Id
@@ -24,8 +25,13 @@ def workerListen():
 
     while 1:
         connection, address = sock.accept()
-        data = connection.recv(1024)
+        data = connection.recv(1024).decode("utf-8")
         taskData = json.loads(data)
+        print("inside workerListen")
+        print(data)
+        print(taskData)
+        #problem is here or there
+
         threadCreate = threading.Thread(target = taskRun, args=(taskData,))
         threadCreate.start()
         threadCreate.join()
