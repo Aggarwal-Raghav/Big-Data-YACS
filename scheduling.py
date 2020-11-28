@@ -52,6 +52,7 @@ def leastLoadedScheduler(workerDetails):
             return 
 
 def roundRobinScheduler(workerDetails, i, Len):
+    i=i%Len
     while workerDetails[i]['slots']<0:
         i = (i+1)%Len
     return workerDetails[i]

@@ -7,7 +7,9 @@ from scheduling import *
 import random
 
 sem = threading.Semaphore()
+sem1 = threading.Semaphore()
 LIST=[]
+
 iterator = 0
 
 pathConf = sys.argv[1]
@@ -16,58 +18,90 @@ conf = conf.read()
 confData = json.loads(conf)
 #list of jobs
 workerData = confData['workers']
+print(workerData)
 lenOfWorker = len(workerData)
 
+execQueue = []
+mapperList = []
+reducerList = []
+jobLength = []
+
+
 def recRequest():
-    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    global mapperList
+    global reducerList
+    global execQueue
+
+    sock1 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     serverAddress = ("localhost", 5000)
-    sock.bind(serverAddress)
-    sock.listen(1)
+    sock1.bind(serverAddress)
+    sock1.listen(1)
 
     while 1:
-        connection, address = sock.accept()
-        sem.acquire()
+        connection, address = sock1.accept()
         data = connection.recv(2048)
         if data==b'':
-            sem.release()
+            sem1.release()
             break
         obj = json.loads(data.decode("utf-8"))
-        LIST.append(obj)
-        sem.release()
-        print(obj)
+        
+        mapperList+=obj['map_tasks']
+        reducerList+=list(obj['reduce_tasks'])
+
+        sem1.acquire()
+        execQueue+=obj['map_tasks']
+        sem1.release()
+        jobLength.append(len(obj['map_tasks']))
+
     connection.close()
 
-def sendJobRequest(workerJob, port):
+def sendTaskRequest(workerJob, port):
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         s.connect(("localhost", port))
         message=json.dumps(workerJob)
         s.send(message.encode())
 
 def workerListen():
-    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    sock2 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     serverAddress = ("localhost", 5001)
-    sock.bind(serverAddress)
-    sock.listen(1)
+    sock2.bind(serverAddress)
+    sock2.listen(1)
 
     while 1:
-        connection, address = sock.accept()
-        data = int(connection.recv(1024).decode("utf-8"))
+        connection, address = sock2.accept()
+        data = connection.recv(1024).decode("utf-8")
+        print(data)
+        if data[3]=='M':
+            jobLength[int(data[1])]-=1
+            if jobLength[int(data[1])]==0:
+                sem1.acquire()
+                execQueue.insert(0,reducerList.pop(0))
+                sem1.release()
 
         sem.acquire()
-        workerData[data-1]['slots']+=1
+        #we have to add worker id in this
+        print(data[1],data[-2])
+        workerData[int(data[-2])-1]['slots']+=1
         sem.release()
         
     connection.close()
 
 def workerScheduling():
-    while LIST:
-        workerDetails = roundRobinScheduler(workerData, iterator ,lenOfWorker)
-        sendJobRequest(LIST.pop(0), workerDetails['port'])
+    global iterator
+    global execQueue
+    while 1:
+        if execQueue:
+            workerDetails = roundRobinScheduler(workerData, iterator ,lenOfWorker)
+            
+            sem1.acquire()
+            sendTaskRequest(execQueue.pop(0), workerDetails['port'])
+            sem1.release() 
 
-        sem.acquire()
-        workerData[iterator]['slots']-=1
-        sem.release() 
-        iterator+=1
+            sem.acquire()
+            workerData[iterator%lenOfWorker]['slots']-=1
+            sem.release() 
+            
+            iterator+=1
         
 
 thread1 = threading.Thread(target = recRequest)
@@ -82,4 +116,3 @@ thread3.start()
 thread1.join()
 thread2.join()
 thread3.join()
-
