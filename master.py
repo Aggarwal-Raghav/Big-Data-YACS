@@ -18,7 +18,6 @@ conf = conf.read()
 confData = json.loads(conf)
 #list of jobs
 workerData = confData['workers']
-print(workerData)
 lenOfWorker = len(workerData)
 
 execQueue = []
@@ -70,17 +69,18 @@ def workerListen():
     while 1:
         connection, address = sock2.accept()
         data = connection.recv(1024).decode("utf-8")
-        print(data)
+        print("inside workerListen :",data)
         if data[3]=='M':
             jobLength[int(data[1])]-=1
             if jobLength[int(data[1])]==0:
                 sem1.acquire()
-                execQueue.insert(0,reducerList.pop(0))
+                print(reducerList[0])
+                for i in reducerList.pop(0):
+                    execQueue.insert(0,i)
                 sem1.release()
 
         sem.acquire()
         #we have to add worker id in this
-        print(data[1],data[-2])
         workerData[int(data[-2])-1]['slots']+=1
         sem.release()
         
@@ -94,8 +94,10 @@ def workerScheduling():
             workerDetails = roundRobinScheduler(workerData, iterator ,lenOfWorker)
             
             sem1.acquire()
-            sendTaskRequest(execQueue.pop(0), workerDetails['port'])
+            v = execQueue.pop(0)
+            print(v)
             sem1.release() 
+            sendTaskRequest(v, workerDetails['port'])
 
             sem.acquire()
             workerData[iterator%lenOfWorker]['slots']-=1
