@@ -51,28 +51,7 @@ def leastLoadedScheduler(workerDetails):
             i['slots'] += 1     # freeing 1 slot 
             return 
 
-def roundRobinScheduler(workerDetails):
-    for i in range(len(workerDetails)):
-        if workerDetails[i]['slots'] > 0:
-            print("chosen worker by round robin scheduling: ", workerDetails[i])
-            workerDetails[i]['slots'] -= 1   # capturing 1 slot
-            """
-                execute task
-            """
-            workerDetails[i]['slots'] += 1   # freeing 1 slot
-            return 
-
-
-file = open('Copy of config.json')
-s = file.read()
-data = json.loads(s)
-workerDetails = data['workers']
-
-# sorting workers by IDs
-workerDetails = sortWorkersByIDs(workerDetails)
-# print(workerDetails)
-
-# testing the schedulers 
-randomScheduler(workerDetails)
-leastLoadedScheduler(workerDetails)
-roundRobinScheduler(workerDetails)
+def roundRobinScheduler(workerDetails, i, Len):
+    while workerDetails[i]['slots']<0:
+        i = (i+1)%Len
+    return workerDetails[i]

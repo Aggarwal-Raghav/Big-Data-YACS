@@ -4,14 +4,17 @@ import numpy
 import json
 
 port = sys.argv[1]
-id = sys.argv[2]
+Id = sys.argv[2]
 
-class worker:
-    def __init__(self, id, port):
-        self.id = id
-        self.port = port
+def workerListen():
+    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    serverAddress = ("localhost", port)
+    sock.bind(serverAddress)
+    sock.listen(1)
 
-worker1 = worker() 
-worker2 = worker() 
-worker3 = worker() 
+    while 1:
+        connection, address = sock.accept()
+        data = connection.recv(1024)
+        jobData = json.loads(data)
+    connection.close()
 
