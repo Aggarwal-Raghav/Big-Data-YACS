@@ -30,8 +30,9 @@ def recRequest():
     global mapperList
     global reducerList
     global execQueue
-
+    
     sock1 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    sock1.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     serverAddress = ("localhost", 5000)
     sock1.bind(serverAddress)
     sock1.listen(1)
@@ -39,29 +40,27 @@ def recRequest():
     while 1:
         connection, address = sock1.accept()
         data = connection.recv(2048)
-        if data==b'':
-            sem1.release()
-            break
         obj = json.loads(data.decode("utf-8"))
         
         mapperList+=obj['map_tasks']
-        reducerList+=list(obj['reduce_tasks'])
+        reducerList.append(list(obj['reduce_tasks']))
 
         sem1.acquire()
         execQueue+=obj['map_tasks']
         sem1.release()
         jobLength.append(len(obj['map_tasks']))
-
-    connection.close()
+        connection.close()
 
 def sendTaskRequest(workerJob, port):
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         s.connect(("localhost", port))
         message=json.dumps(workerJob)
         s.send(message.encode())
+        s.close()
 
 def workerListen():
     sock2 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    sock2.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     serverAddress = ("localhost", 5001)
     sock2.bind(serverAddress)
     sock2.listen(1)
@@ -69,41 +68,48 @@ def workerListen():
     while 1:
         connection, address = sock2.accept()
         data = connection.recv(1024).decode("utf-8")
-        print("inside workerListen :",data)
+        print("Completed task. ID returned : ",data)
         if data[3]=='M':
-            jobLength[int(data[1])]-=1
-            if jobLength[int(data[1])]==0:
+            reducerIndex = int(data[1])
+            jobLength[reducerIndex]-=1
+            if jobLength[reducerIndex]==0:
                 sem1.acquire()
-                print(reducerList[0])
-                for i in reducerList.pop(0):
-                    execQueue.insert(0,i)
+                for job in reducerList[reducerIndex]:
+                    execQueue.insert(0,job)
                 sem1.release()
 
         sem.acquire()
         #we have to add worker id in this
         workerData[int(data[-2])-1]['slots']+=1
         sem.release()
-        
-    connection.close()
+        connection.close()
 
 def workerScheduling():
     global iterator
     global execQueue
     while 1:
-        if execQueue:
-            workerDetails = roundRobinScheduler(workerData, iterator ,lenOfWorker)
-            
-            sem1.acquire()
+        if execQueue:      
+            #print("execution Queue : ",execQueue)
+            sem1.acquire()    
             v = execQueue.pop(0)
+            sem1.release()
+            """
+            print('*'*10)
+            print("Sending Task Request")
             print(v)
-            sem1.release() 
-            sendTaskRequest(v, workerDetails['port'])
-
+            print("On worker",workerDetails)
+            print("*"*10)
+            """
             sem.acquire()
-            workerData[iterator%lenOfWorker]['slots']-=1
-            sem.release() 
+            workerDetails = roundRobinScheduler(workerData, iterator ,lenOfWorker)
+            workerData[workerDetails['worker_id']-1]['slots']-=1
+            sem.release()
+
+            sendTaskRequest(v, workerDetails['port'])
             
             iterator+=1
+
+        
         
 
 thread1 = threading.Thread(target = recRequest)
