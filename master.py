@@ -33,22 +33,22 @@ def recRequest():
     
     sock1 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     sock1.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-    serverAddress = ("localhost", 5000)
+    serverAddress = ("localhost", 5000)                             #Port for receiving requests from Requests.py
     sock1.bind(serverAddress)
     sock1.listen(1)
 
     while 1:
         connection, address = sock1.accept()
         data = connection.recv(2048)
-        obj = json.loads(data.decode("utf-8"))
+        obj = json.loads(data.decode("utf-8"))                      # Data -> string,       json.loads - data -> dictionary
         
         mapperList+=obj['map_tasks']
         reducerList.append(list(obj['reduce_tasks']))
 
-        sem1.acquire()
+        sem1.acquire()                          # sem1 - used only for execQueue variable
         execQueue+=obj['map_tasks']
         sem1.release()
-        jobLength.append(len(obj['map_tasks']))
+        jobLength.append(len(obj['map_tasks']))         # Storing length of number of map tasks
         connection.close()
 
 def sendTaskRequest(workerJob, port):
@@ -68,9 +68,9 @@ def workerListen():
     while 1:
         connection, address = sock2.accept()
         data = connection.recv(1024).decode("utf-8")
-        print("Completed task. ID returned : ",data)
+        print("Completed task. ID returned : ",data)                # eg: "0_M0 1"
         if data[3]=='M':
-            reducerIndex = int(data[1])
+            reducerIndex = int(data[1])                             #reducerIndex = JobId
             jobLength[reducerIndex]-=1
             if jobLength[reducerIndex]==0:
                 sem1.acquire()
@@ -79,7 +79,6 @@ def workerListen():
                 sem1.release()
 
         sem.acquire()
-        #we have to add worker id in this
         workerData[int(data[-2])-1]['slots']+=1
         sem.release()
         connection.close()
@@ -100,7 +99,7 @@ def workerScheduling():
             print("On worker",workerDetails)
             print("*"*10)
             """
-            sem.acquire()
+            sem.acquire()                                                               #WorkerDetails
             workerDetails = roundRobinScheduler(workerData, iterator ,lenOfWorker)
             workerData[workerDetails['worker_id']-1]['slots']-=1
             sem.release()
@@ -109,8 +108,6 @@ def workerScheduling():
             
             iterator+=1
 
-        
-        
 
 thread1 = threading.Thread(target = recRequest)
 thread1.start()

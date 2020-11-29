@@ -11,8 +11,8 @@ Id = sys.argv[2]
 
 def taskRun(taskData):
     dur = int(taskData['duration'])
-    time.sleep(dur)
-    dataToSend =  taskData['task_id'] + " " +Id
+    time.sleep(dur)                                                 # sleep -> task running simulation
+    dataToSend =  taskData['task_id'] + " " +Id                     # eg: "0_M0 1"
     sendToMaster(dataToSend)
 
 def workerListen():
@@ -24,7 +24,7 @@ def workerListen():
     while 1:
         connection, address = sock.accept()
         data = connection.recv(1024).decode("utf-8")
-        taskData = json.loads(data)
+        taskData = json.loads(data)                                         #eg: {'task_id' : "0_M0", 'duration':3}
 
         threadCreate = threading.Thread(target = taskRun, args=(taskData,))
         threadCreate.start()
