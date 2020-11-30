@@ -111,12 +111,14 @@ def workerScheduling():
                 sem.acquire()
                 workerDetails = randomScheduler(workerData)
                 workerData[workerDetails['worker_id']-1]['slots']-=1
+                # print("chosenWorker for RANDOM: ", workerDetails)
+                time.sleep(0.001)
                 sem.release()
-                # print("chosen worker ", workerDetails['port'])
+
             elif scheduleAlgo == 'LL':
                 sem.acquire()
                 workerDetails = leastLoadedScheduler(workerData)
-                # print("MAX SLOTS: ", workerData[workerDetails['worker_id']-1]['slots'])
+                # print("chosenWorker for LeastLoaded: ", workerDetails)
                 workerData[workerDetails['worker_id']-1]['slots']-=1
                 sem.release()
 
