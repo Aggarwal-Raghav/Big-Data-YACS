@@ -74,3 +74,22 @@ print("Mean of task completion time = ", tasks.mean())
 print(worker1)
 print(worker2)
 print(worker3)
+
+def plotFig(worker,s):
+    x,y=[],[]
+    for i in worker:
+        x.append(i[0])
+        y.append(i[1])
+    plt.plot(y,x,'-ob')
+    plt.xlabel("Time")
+    plt.ylabel("Number of running tasks")
+    plt.title(s)
+    plt.show()
+
+plotFig(worker1,"Worker 1")
+plotFig(worker2,"Worker 2")
+plotFig(worker3,"Worker 3")
+
+
+
+
