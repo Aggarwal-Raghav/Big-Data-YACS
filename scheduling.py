@@ -16,16 +16,10 @@ def sortWorkersByIDs(workerDetails):
 
 def randomScheduler(workerDetails):
     while 1:
-        randomChoice = random.randrange(1, len(workerDetails))
+        randomChoice = random.randrange(0, len(workerDetails))
         chosenWorker = workerDetails[randomChoice]
         if chosenWorker['slots'] > 0:
-            print("chosen worker for random scheduler: ", chosenWorker)
-            chosenWorker['slots'] -= 1      # capturing 1 slot 
-            """
-                execute task
-            """
-            chosenWorker['slots'] += 1      # freeing 1 slot 
-            return 
+            return chosenWorker
 
 def leastLoadedScheduler(workerDetails):
     maxWorkerID = -1
@@ -43,16 +37,12 @@ def leastLoadedScheduler(workerDetails):
 
     for i in workerDetails:
         if i['worker_id'] == maxWorkerID:
-            print("chosen worker for least loaded scheduler: ", i)
-            i['slots'] -= 1     # capturing 1 slot
-            """
-                execute task
-            """
-            i['slots'] += 1     # freeing 1 slot 
-            return 
+            return i
 
 def roundRobinScheduler(workerDetails, i, Len):
     i=i%Len
     while workerDetails[i]['slots']<0:
         i = (i+1)%Len
     return workerDetails[i]
+
+

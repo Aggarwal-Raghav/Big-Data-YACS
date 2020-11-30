@@ -13,6 +13,7 @@ LIST=[]
 iterator = 0
 
 pathConf = sys.argv[1]
+scheduleAlgo = sys.argv[2]
 conf = open(pathConf,'r')
 conf = conf.read()
 confData = json.loads(conf)
@@ -20,6 +21,7 @@ confData = json.loads(conf)
 workerData = confData['workers']
 lenOfWorker = len(workerData)
 
+print("SCHEDULING ALGO: ", scheduleAlgo)
 execQueue = []
 mapperList = []
 reducerList = []
@@ -99,13 +101,26 @@ def workerScheduling():
             print("On worker",workerDetails)
             print("*"*10)
             """
-            sem.acquire()                                                               #WorkerDetails
-            workerDetails = roundRobinScheduler(workerData, iterator ,lenOfWorker)
-            workerData[workerDetails['worker_id']-1]['slots']-=1
-            sem.release()
+            if scheduleAlgo == 'RR':
+                sem.acquire()                                                               #WorkerDetails
+                workerDetails = roundRobinScheduler(workerData, iterator ,lenOfWorker)
+                workerData[workerDetails['worker_id']-1]['slots']-=1
+                sem.release()
+
+            elif scheduleAlgo == 'RANDOM':
+                sem.acquire()
+                workerDetails = randomScheduler(workerData)
+                workerData[workerDetails['worker_id']-1]['slots']-=1
+                sem.release()
+                # print("chosen worker ", workerDetails['port'])
+            elif scheduleAlgo == 'LL':
+                sem.acquire()
+                workerDetails = leastLoadedScheduler(workerData)
+                # print("MAX SLOTS: ", workerData[workerDetails['worker_id']-1]['slots'])
+                workerData[workerDetails['worker_id']-1]['slots']-=1
+                sem.release()
 
             sendTaskRequest(v, workerDetails['port'])
-            
             iterator+=1
 
 
