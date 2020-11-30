@@ -24,6 +24,8 @@ confData = json.loads(conf)
 workerData = confData['workers']
 lenOfWorker = len(workerData)
 
+#logging.info(workerData)
+
 print("SCHEDULING ALGO: ", scheduleAlgo)
 execQueue = []
 mapperList = []
@@ -48,7 +50,7 @@ def recRequest():
         data = connection.recv(2048)
         obj = json.loads(data.decode("utf-8"))                      # Data -> string,       json.loads - data -> dictionary
 
-        logging.info(str(time.time())+":Recieved Job from requests.py with ID:"+str(obj['job_id']))
+        logging.info(str(time.time())+": Recieved Job from requests.py with ID :"+str(obj['job_id']))
         
         mapperList+=obj['map_tasks']
         reducerList.append(list(obj['reduce_tasks']))
@@ -66,7 +68,7 @@ def sendTaskRequest(workerJob, port):
         message=json.dumps(workerJob)
         s.send(message.encode())
         print(workerJob)
-        logging.info(str(time.time())+":Sending Task request to Worker on port :"+str(port)+": with task_id :"+workerJob['task_id'])
+        logging.info(str(time.time())+": Sending Task request to Worker on port :"+str(port)+": with task_id :"+workerJob['task_id'])
         s.close()
 
 def workerListen():
@@ -81,12 +83,12 @@ def workerListen():
         data = connection.recv(1024).decode("utf-8")
         data = json.loads(data)
         print(data)
-        logging.info(str(time.time())+":Completed task with ID :"+data)
+        logging.info(str(time.time())+": Completed task with ID :"+data)
         if data[2]=='R':
             jobIndex = int(data[0])                             #reducerIndex = JobId
             jobLengthReducer[jobIndex]-=1
             if jobLengthReducer[jobIndex]==0:
-                logging.info(str(time.time())+":"+"Completed Job:"+data[0])
+                logging.info(str(time.time())+":"+" Completed Job :"+data[0])
 
 
         print("Completed task. ID returned : ",data)                # eg: "0_M0 1"
@@ -124,7 +126,7 @@ def workerScheduling():
                 sem.acquire()
                 workerData[workerDetails['worker_id']-1]['slots']-=1
                 # print("chosenWorker for RANDOM: ", workerDetails)
-                time.sleep(0.001)
+                #time.sleep(0.001)
                 sem.release()
 
             elif scheduleAlgo == 'LL':
@@ -133,6 +135,9 @@ def workerScheduling():
                 # print("chosenWorker for LeastLoaded: ", workerDetails)
                 workerData[workerDetails['worker_id']-1]['slots']-=1
                 sem.release()
+
+            #logging.info(workerData)
+            #logging.info(execQueue)
 
             sendTaskRequest(v, workerDetails['port'])
             iterator+=1
@@ -147,6 +152,7 @@ thread2.start()
 thread3 = threading.Thread(target = workerListen)
 thread3.start()
 
-thread1.join()
+
 thread2.join()
 thread3.join()
+thread1.join()

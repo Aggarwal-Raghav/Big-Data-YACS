@@ -28,7 +28,6 @@ def workerListen():
 
         threadCreate = threading.Thread(target = taskRun, args=(taskData,))
         threadCreate.start()
-        threadCreate.join()
     connection.close()
 
 def sendToMaster(ID):

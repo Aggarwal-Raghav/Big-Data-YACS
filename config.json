@@ -2,7 +2,7 @@
   "workers": [
     {
       "worker_id": 1,
-      "slots": 0,
+      "slots": 5,
       "port": 4000
     },
     {
@@ -12,7 +12,7 @@
     },
     {
       "worker_id": 3,
-      "slots": 0,
+      "slots": 3,
       "port": 4002
     }
   ]
