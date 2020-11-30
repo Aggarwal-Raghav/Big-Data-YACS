@@ -71,16 +71,16 @@ print("Mean of job completion time = ", jobs.mean())
 tasks = np.array(list(tasks.values()))
 print("Median of task completion time = ", np.median(tasks))
 print("Mean of task completion time = ", tasks.mean())
-print(worker1)
-print(worker2)
-print(worker3)
+#print(worker1)
+#print(worker2)
+#print(worker3)
 
 def plotFig(worker,s):
     x,y=[],[]
     for i in worker:
         x.append(i[0])
         y.append(i[1])
-    plt.plot(y,x,'-ob')
+    plt.plot(y,x,'--bo')
     plt.xlabel("Time")
     plt.ylabel("Number of running tasks")
     plt.title(s)
