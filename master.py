@@ -5,6 +5,9 @@ import threading
 import time
 from scheduling import *
 import random
+import logging
+
+logging.basicConfig(filename='logs.log',filemode = 'w', level=logging.INFO)
 
 sem = threading.Semaphore()
 sem1 = threading.Semaphore()
@@ -26,6 +29,7 @@ execQueue = []
 mapperList = []
 reducerList = []
 jobLength = []
+jobLengthReducer = []
 
 
 def recRequest():
@@ -43,6 +47,8 @@ def recRequest():
         connection, address = sock1.accept()
         data = connection.recv(2048)
         obj = json.loads(data.decode("utf-8"))                      # Data -> string,       json.loads - data -> dictionary
+
+        logging.info(str(time.time())+":Recieved Job from requests.py with ID:"+str(obj['job_id']))
         
         mapperList+=obj['map_tasks']
         reducerList.append(list(obj['reduce_tasks']))
@@ -51,6 +57,7 @@ def recRequest():
         execQueue+=obj['map_tasks']
         sem1.release()
         jobLength.append(len(obj['map_tasks']))         # Storing length of number of map tasks
+        jobLengthReducer.append(len(obj['reduce_tasks']))
         connection.close()
 
 def sendTaskRequest(workerJob, port):
@@ -58,6 +65,8 @@ def sendTaskRequest(workerJob, port):
         s.connect(("localhost", port))
         message=json.dumps(workerJob)
         s.send(message.encode())
+        print(workerJob)
+        logging.info(str(time.time())+":Sending Task request to Worker on port :"+str(port)+": with task_id :"+workerJob['task_id'])
         s.close()
 
 def workerListen():
@@ -70,9 +79,19 @@ def workerListen():
     while 1:
         connection, address = sock2.accept()
         data = connection.recv(1024).decode("utf-8")
+        data = json.loads(data)
+        print(data)
+        logging.info(str(time.time())+":Completed task with ID :"+data)
+        if data[2]=='R':
+            jobIndex = int(data[0])                             #reducerIndex = JobId
+            jobLengthReducer[jobIndex]-=1
+            if jobLengthReducer[jobIndex]==0:
+                logging.info(str(time.time())+":"+"Completed Job:"+data[0])
+
+
         print("Completed task. ID returned : ",data)                # eg: "0_M0 1"
-        if data[3]=='M':
-            reducerIndex = int(data[1])                             #reducerIndex = JobId
+        if data[2]=='M':
+            reducerIndex = int(data[0])                             #reducerIndex = JobId
             jobLength[reducerIndex]-=1
             if jobLength[reducerIndex]==0:
                 sem1.acquire()
@@ -81,7 +100,7 @@ def workerListen():
                 sem1.release()
 
         sem.acquire()
-        workerData[int(data[-2])-1]['slots']+=1
+        workerData[int(data[-1])-1]['slots']+=1
         sem.release()
         connection.close()
 
