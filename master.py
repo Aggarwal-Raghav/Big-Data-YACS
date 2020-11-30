@@ -6,8 +6,27 @@ import time
 from scheduling import *
 import random
 import logging
+import os
 
-logging.basicConfig(filename='logs.log',filemode = 'w', level=logging.INFO)
+if os.path.exists("logs.log"):
+    os.remove("logs.log")
+else:
+    pass
+
+def createLogHandler(log_file):
+    logger = logging.getLogger()
+    logger.setLevel(logging.INFO)
+    handler = logging.FileHandler(log_file)
+    formatter = logging.Formatter('%(levelname)s:%(name)s:%(message)s')
+    handler.setFormatter(formatter)
+    logger.addHandler(handler)
+    return logger
+
+log_file = 'logs.log'
+logger = createLogHandler(log_file)
+#logger.info('Logger has been created')
+
+#logging.basicConfig(filename='logs.log',filemode = 'w', level=logging.INFO)
 
 sem = threading.Semaphore()
 sem1 = threading.Semaphore()
@@ -50,7 +69,7 @@ def recRequest():
         data = connection.recv(2048)
         obj = json.loads(data.decode("utf-8"))                      # Data -> string,       json.loads - data -> dictionary
 
-        logging.info(str(time.time())+": Recieved Job from requests.py with ID :"+str(obj['job_id']))
+        logger.info(str(time.time())+": Recieved Job from requests.py with ID :"+str(obj['job_id']))
         
         mapperList+=obj['map_tasks']
         reducerList.append(list(obj['reduce_tasks']))
@@ -68,7 +87,6 @@ def sendTaskRequest(workerJob, port):
         message=json.dumps(workerJob)
         s.send(message.encode())
         print(workerJob)
-        logging.info(str(time.time())+": Sending Task request to Worker on port :"+str(port)+": with task_id :"+workerJob['task_id'])
         s.close()
 
 def workerListen():
@@ -83,12 +101,11 @@ def workerListen():
         data = connection.recv(1024).decode("utf-8")
         data = json.loads(data)
         print(data)
-        logging.info(str(time.time())+": Completed task with ID :"+data)
         if data[2]=='R':
             jobIndex = int(data[0])                             #reducerIndex = JobId
             jobLengthReducer[jobIndex]-=1
             if jobLengthReducer[jobIndex]==0:
-                logging.info(str(time.time())+":"+" Completed Job :"+data[0])
+                logger.info(str(time.time())+":"+" Completed Job :"+data[0])
 
 
         print("Completed task. ID returned : ",data)                # eg: "0_M0 1"
