@@ -94,30 +94,23 @@ def workerScheduling():
             sem1.acquire()    
             v = execQueue.pop(0)
             sem1.release()
-            """
-            print('*'*10)
-            print("Sending Task Request")
-            print(v)
-            print("On worker",workerDetails)
-            print("*"*10)
-            """
             if scheduleAlgo == 'RR':
-                sem.acquire()                                                               #WorkerDetails
                 workerDetails = roundRobinScheduler(workerData, iterator ,lenOfWorker)
+                sem.acquire()                                                               #WorkerDetails
                 workerData[workerDetails['worker_id']-1]['slots']-=1
                 sem.release()
 
             elif scheduleAlgo == 'RANDOM':
-                sem.acquire()
                 workerDetails = randomScheduler(workerData)
+                sem.acquire()
                 workerData[workerDetails['worker_id']-1]['slots']-=1
                 # print("chosenWorker for RANDOM: ", workerDetails)
                 time.sleep(0.001)
                 sem.release()
 
             elif scheduleAlgo == 'LL':
-                sem.acquire()
                 workerDetails = leastLoadedScheduler(workerData)
+                sem.acquire()
                 # print("chosenWorker for LeastLoaded: ", workerDetails)
                 workerData[workerDetails['worker_id']-1]['slots']-=1
                 sem.release()
