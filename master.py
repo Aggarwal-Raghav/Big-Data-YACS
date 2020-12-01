@@ -168,8 +168,3 @@ thread2.start()
 
 thread3 = threading.Thread(target = workerListen)
 thread3.start()
-
-
-thread2.join()
-thread3.join()
-thread1.join()

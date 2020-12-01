@@ -59,4 +59,3 @@ print("Worker ID",Id,"On port",port)
 
 thread1 = threading.Thread(target = workerListen)
 thread1.start()
-thread1.join()
