@@ -1,4 +1,5 @@
 #importing the python libraries
+import re
 import socket
 import sys
 import json
@@ -112,10 +113,14 @@ def workerListen():
         connection, address = sock2.accept()
         data = connection.recv(1024).decode("utf-8")
         data = json.loads(data)
+        pattern = "(\d*)_.*"
+        matched = re.search(pattern, data)
+        print(matched.group(0))
         #print(data)
         #Checking if all reducers of specific jobs are complete
         if data[2]=='R':
-            jobIndex = int(data[0]) 
+            #jobIndex = int(data[0]) 
+            jobIndex = int(matched.group(1)) 
             jobLengthReducer[jobIndex]-=1
             if jobLengthReducer[jobIndex]==0:
                 logger.info(str(time.time())+":"+" Completed Job :"+data[0])
@@ -124,7 +129,8 @@ def workerListen():
         print("Completed task. ID returned : ",data)     #eg: "0_M0 1"
         #Checking if all mappers of specific jobs are complete
         if data[2]=='M':
-            reducerIndex = int(data[0])                             #reducerIndex = JobId
+            reducerIndex = int(matched.group(1))                             #reducerIndex = JobId
+            #reducerIndex = int(data[0])                             #reducerIndex = JobId
             jobLength[reducerIndex]-=1
             if jobLength[reducerIndex]==0:
                 #Acquiring semaphore and including reducer tasks in execution queue
