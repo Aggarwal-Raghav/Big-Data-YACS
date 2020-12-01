@@ -10,7 +10,7 @@ def create_job_request(job_id):
 	number_of_reduce_tasks=random.randrange(1,3)
 	job_request={"job_id":job_id,"map_tasks":[],"reduce_tasks":[]}
 	for i in range(0,number_of_map_tasks):
-		map_task={"task_id":job_id+"_M"+str(i),"duration":10}
+		map_task={"task_id":job_id+"_M"+str(i),"duration":random.randrange(1,5)}
 		job_request["map_tasks"].append(map_task)
 	for i in range(0,number_of_reduce_tasks):
 		reduce_task={"task_id":job_id+"_R"+str(i),"duration":random.randrange(1,5)}
