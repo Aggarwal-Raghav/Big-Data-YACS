@@ -4,7 +4,10 @@ import sys
 import json
 import threading
 import time
+
+# Our implemention of scheduling algorithm
 from scheduling import *
+
 import random
 import logging
 import os
@@ -166,7 +169,6 @@ def workerScheduling():
             #logging.info(workerData)
             #logging.info(execQueue)
             sendTaskRequest(v, workerDetails['port'])
-
 
 #Creating thread for receiveing job request from requests.py
 thread1 = threading.Thread(target = recRequest)

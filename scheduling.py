@@ -1,7 +1,10 @@
+#Importing the python libraries
 import time 
 import json 
 import random
 
+
+#Function to sort the list of worker on basis of worker id
 def sortWorkersByIDs(workerDetails):
     listNew = []
     for i in workerDetails:
@@ -14,6 +17,7 @@ def sortWorkersByIDs(workerDetails):
                 sortedList.append(j)
     return sortedList
 
+#Fuction for Random Scheduling
 def randomScheduler(workerDetails):
     while 1:
         randomChoice = random.randrange(0, len(workerDetails))
@@ -21,6 +25,7 @@ def randomScheduler(workerDetails):
         if chosenWorker['slots'] > 0:
             return chosenWorker
 
+#Fuction for Least loaded schduling
 def leastLoadedScheduler(workerDetails):
     maxWorkerID = -1
     maxWorkerSlots = -1
@@ -39,6 +44,7 @@ def leastLoadedScheduler(workerDetails):
         if i['worker_id'] == maxWorkerID:
             return i
 
+#Function for Round Robin scheduling
 def roundRobinScheduler(workerDetails, i, Len):
     i=i%Len
     while workerDetails[i]['slots']<=0:
