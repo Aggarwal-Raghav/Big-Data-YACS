@@ -1,1 +1,56 @@
-<mxfile host="app.diagrams.net" modified="2020-12-01T13:22:51.521Z" agent="5.0 (Windows)" version="13.8.0" etag="F59d81q4P2yuVGO3FYip" type="github"><diagram id="xkom0pLBFz9fthWtHomp">UzV2zq1wL0osyPDNT0nNUTV2VTV2LsrPL4GwciucU3NyVI0MMlNUjV1UjYwMgFjVyA2HrCFY1qAgsSg1rwSLBiADYTaQg2Y1AA==</diagram></mxfile>
+<mxfile host="app.diagrams.net" modified="2020-12-01T13:40:03.771Z" agent="5.0 (Windows)" etag="LKVbS-2S2IPtpzbbJ3-A" version="13.8.0" type="github">
+  <diagram id="xkom0pLBFz9fthWtHomp" name="Page-1">
+    <mxGraphModel dx="1038" dy="585" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="eUm8en-gwWZ5ey0Eiw9p-10" value="Port 5000" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;startArrow=classic;startFill=1;" edge="1" parent="1" source="eUm8en-gwWZ5ey0Eiw9p-1" target="eUm8en-gwWZ5ey0Eiw9p-2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="eUm8en-gwWZ5ey0Eiw9p-1" value="&lt;div&gt;Job Requests sent to Master&lt;br&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="360" y="170" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="eUm8en-gwWZ5ey0Eiw9p-7" value="Port 4000" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="eUm8en-gwWZ5ey0Eiw9p-2" target="eUm8en-gwWZ5ey0Eiw9p-3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="eUm8en-gwWZ5ey0Eiw9p-9" value="Port 4002" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="eUm8en-gwWZ5ey0Eiw9p-2" target="eUm8en-gwWZ5ey0Eiw9p-5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="eUm8en-gwWZ5ey0Eiw9p-11" value="Port 4001" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="eUm8en-gwWZ5ey0Eiw9p-2" target="eUm8en-gwWZ5ey0Eiw9p-4">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="460" y="440" />
+              <mxPoint x="460" y="440" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="eUm8en-gwWZ5ey0Eiw9p-2" value="Master receives Jobs and send to Workers based on Scheduling Algorithms specified in CLI" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="322.5" y="320" width="195" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="eUm8en-gwWZ5ey0Eiw9p-15" value="Port 5001" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.75;entryDx=0;entryDy=0;startArrow=none;startFill=0;" edge="1" parent="1" source="eUm8en-gwWZ5ey0Eiw9p-3" target="eUm8en-gwWZ5ey0Eiw9p-2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="eUm8en-gwWZ5ey0Eiw9p-3" value="Worker 1 listening for requests and sending completed task query to master" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="130" y="510" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="eUm8en-gwWZ5ey0Eiw9p-21" value="Port 5001" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;startArrow=none;startFill=0;" edge="1" parent="1" source="eUm8en-gwWZ5ey0Eiw9p-4">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="380" y="410" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="380" y="410" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="eUm8en-gwWZ5ey0Eiw9p-4" value="Worker 2 listening for requests and sending completed task query to master" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="360" y="510" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="eUm8en-gwWZ5ey0Eiw9p-16" value="Port 5001" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.75;entryDx=0;entryDy=0;startArrow=none;startFill=0;" edge="1" parent="1" source="eUm8en-gwWZ5ey0Eiw9p-5" target="eUm8en-gwWZ5ey0Eiw9p-2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="eUm8en-gwWZ5ey0Eiw9p-5" value="Worker 2 listening for requests and sending completed task query to master" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="590" y="510" width="120" height="60" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
