@@ -1,98 +1,108 @@
-INFO:root:1606828532.12268: Recieved Job from requests.py with ID :0
-INFO:root:1606828532.1234844: Sending Task request to Worker on port :4000: with task_id :0_M0
-INFO:root:1606828533.5722651: Recieved Job from requests.py with ID :1
-INFO:root:1606828533.5792556: Sending Task request to Worker on port :4001: with task_id :1_M0
-INFO:root:1606828533.5795681: Sending Task request to Worker on port :4002: with task_id :1_M1
-INFO:root:1606828534.356868: Recieved Job from requests.py with ID :2
-INFO:root:1606828534.358658: Sending Task request to Worker on port :4000: with task_id :2_M0
-INFO:root:1606828534.3597026: Sending Task request to Worker on port :4001: with task_id :2_M1
-INFO:root:1606828534.8445497: Recieved Job from requests.py with ID :3
-INFO:root:1606828534.8544118: Sending Task request to Worker on port :4002: with task_id :3_M0
-INFO:root:1606828535.884669: Recieved Job from requests.py with ID :4
-INFO:root:1606828535.8916042: Sending Task request to Worker on port :4000: with task_id :4_M0
-INFO:root:1606828537.5311248: Recieved Job from requests.py with ID :5
-INFO:root:1606828537.532669: Sending Task request to Worker on port :4001: with task_id :5_M0
-INFO:root:1606828537.5337925: Sending Task request to Worker on port :4002: with task_id :5_M1
-INFO:root:1606828537.5842988: Recieved Job from requests.py with ID :6
-INFO:root:1606828537.5860884: Sending Task request to Worker on port :4001: with task_id :6_M1
-INFO:root:1606828537.5979435: Sending Task request to Worker on port :4000: with task_id :6_M0
-INFO:root:1606828537.5984843: Sending Task request to Worker on port :4000: with task_id :6_M2
-INFO:root:1606828537.8061757: Recieved Job from requests.py with ID :7
-INFO:root:1606828537.8079622: Sending Task request to Worker on port :4001: with task_id :7_M0
-INFO:root:1606828537.8097274: Sending Task request to Worker on port :4001: with task_id :7_M1
-INFO:root:1606828537.813037: Sending Task request to Worker on port :4001: with task_id :7_M2
-INFO:root:1606828538.7592223: Recieved Job from requests.py with ID :8
-INFO:root:1606828539.0200908: Recieved Job from requests.py with ID :9
-INFO:root:1606828542.1344912: Completed task with ID :0_M0 1
-INFO:root:1606828542.1420026: Sending Task request to Worker on port :4000: with task_id :7_M3
-INFO:root:1606828543.5859854: Completed task with ID :1_M0 2
-INFO:root:1606828543.58991: Completed task with ID :1_M1 3
-INFO:root:1606828543.5932178: Sending Task request to Worker on port :4001: with task_id :0_R0
-INFO:root:1606828543.5952506: Sending Task request to Worker on port :4002: with task_id :1_R0
-INFO:root:1606828544.370472: Completed task with ID :2_M0 1
-INFO:root:1606828544.370757: Completed task with ID :2_M1 2
-INFO:root:1606828544.3799622: Sending Task request to Worker on port :4000: with task_id :8_M0
-INFO:root:1606828544.3800857: Sending Task request to Worker on port :4001: with task_id :2_R0
-INFO:root:1606828544.8624651: Completed task with ID :3_M0 3
-INFO:root:1606828544.8694658: Sending Task request to Worker on port :4002: with task_id :8_M1
-INFO:root:1606828545.3812733: Completed task with ID :2_R0 2
-INFO:root:1606828545.4008558: Completed Job :2
-INFO:root:1606828545.40329: Sending Task request to Worker on port :4001: with task_id :3_R1
-INFO:root:1606828545.903312: Completed task with ID :4_M0 1
-INFO:root:1606828545.914684: Sending Task request to Worker on port :4000: with task_id :3_R0
-INFO:root:1606828546.5938463: Completed task with ID :0_R0 2
-INFO:root:1606828546.6010978: Completed Job :0
-INFO:root:1606828546.6033847: Sending Task request to Worker on port :4001: with task_id :4_R0
-INFO:root:1606828547.5418766: Completed task with ID :5_M1 3
-INFO:root:1606828547.5418818: Completed task with ID :5_M0 2
-INFO:root:1606828547.5492325: Sending Task request to Worker on port :4002: with task_id :8_M2
-INFO:root:1606828547.5608766: Sending Task request to Worker on port :4001: with task_id :5_R1
-INFO:root:1606828547.5977235: Completed task with ID :1_R0 3
-INFO:root:1606828547.6027627: Completed task with ID :6_M1 2
-INFO:root:1606828547.6049707: Completed Job :1
-INFO:root:1606828547.6060307: Completed task with ID :6_M0 1
-INFO:root:1606828547.6074674: Sending Task request to Worker on port :4000: with task_id :5_R0
-INFO:root:1606828547.6075115: Sending Task request to Worker on port :4001: with task_id :9_M0
-INFO:root:1606828547.6098049: Sending Task request to Worker on port :4002: with task_id :9_M1
-INFO:root:1606828547.6120036: Completed task with ID :6_M2 1
-INFO:root:1606828547.6158068: Sending Task request to Worker on port :4000: with task_id :6_R1
-INFO:root:1606828547.817981: Completed task with ID :7_M0 2
-INFO:root:1606828547.8183367: Completed task with ID :7_M1 2
-INFO:root:1606828547.8217874: Completed task with ID :7_M2 2
-INFO:root:1606828547.823582: Sending Task request to Worker on port :4001: with task_id :6_R0
-INFO:root:1606828547.8237977: Sending Task request to Worker on port :4001: with task_id :9_M2
-INFO:root:1606828547.831771: Sending Task request to Worker on port :4001: with task_id :9_M3
-INFO:root:1606828548.6048758: Completed task with ID :4_R0 2
-INFO:root:1606828548.610188: Completed Job :4
-INFO:root:1606828548.616618: Completed task with ID :6_R1 1
-INFO:root:1606828549.4079013: Completed task with ID :3_R1 2
-INFO:root:1606828549.8258233: Completed task with ID :6_R0 2
-INFO:root:1606828549.831503: Completed Job :6
-INFO:root:1606828549.9178536: Completed task with ID :3_R0 1
-INFO:root:1606828549.923166: Completed Job :3
-INFO:root:1606828550.5618005: Completed task with ID :5_R1 2
-INFO:root:1606828551.6104724: Completed task with ID :5_R0 1
-INFO:root:1606828551.615823: Completed Job :5
-INFO:root:1606828552.1509774: Completed task with ID :7_M3 1
-INFO:root:1606828552.1566002: Sending Task request to Worker on port :4000: with task_id :7_R1
-INFO:root:1606828552.1571167: Sending Task request to Worker on port :4001: with task_id :7_R0
-INFO:root:1606828553.158034: Completed task with ID :7_R1 1
-INFO:root:1606828554.3898058: Completed task with ID :8_M0 1
-INFO:root:1606828554.880522: Completed task with ID :8_M1 3
-INFO:root:1606828555.1606164: Completed task with ID :7_R0 2
-INFO:root:1606828555.1664336: Completed Job :7
-INFO:root:1606828557.5604858: Completed task with ID :8_M2 3
-INFO:root:1606828557.5666234: Sending Task request to Worker on port :4002: with task_id :8_R1
-INFO:root:1606828557.5667157: Sending Task request to Worker on port :4000: with task_id :8_R0
-INFO:root:1606828557.6178238: Completed task with ID :9_M0 2
-INFO:root:1606828557.6178765: Completed task with ID :9_M1 3
-INFO:root:1606828557.8339422: Completed task with ID :9_M2 2
-INFO:root:1606828557.842282: Completed task with ID :9_M3 2
-INFO:root:1606828557.8635619: Sending Task request to Worker on port :4001: with task_id :9_R1
-INFO:root:1606828557.8638792: Sending Task request to Worker on port :4002: with task_id :9_R0
-INFO:root:1606828558.8653214: Completed task with ID :9_R1 2
-INFO:root:1606828558.8656573: Completed task with ID :9_R0 3
-INFO:root:1606828558.8770025: Completed Job :9
-INFO:root:1606828560.56924: Completed task with ID :8_R1 3
-INFO:root:1606828561.5702531: Completed task with ID :8_R0 1
-INFO:root:1606828561.575983: Completed Job :8
+INFO:root:1606841100.15989: Recieved Job from requests.py with ID :0
+INFO:root:1606841100.1605926: Sending Task request to Worker on port :4000: with task_id :0_M0
+INFO:root:1606841100.1608222: Sending Task request to Worker on port :4001: with task_id :0_M1
+INFO:root:1606841100.1615407: Sending Task request to Worker on port :4002: with task_id :0_M2
+INFO:root:1606841101.3038054: Recieved Job from requests.py with ID :1
+INFO:root:1606841101.3043108: Sending Task request to Worker on port :4000: with task_id :1_M0
+INFO:root:1606841101.3045669: Sending Task request to Worker on port :4001: with task_id :1_M1
+INFO:root:1606841101.335092: Recieved Job from requests.py with ID :2
+INFO:root:1606841101.3356962: Sending Task request to Worker on port :4002: with task_id :2_M0
+INFO:root:1606841101.3361733: Sending Task request to Worker on port :4000: with task_id :2_M1
+INFO:root:1606841101.336246: Sending Task request to Worker on port :4001: with task_id :2_M2
+INFO:root:1606841101.3367755: Sending Task request to Worker on port :4002: with task_id :2_M3
+INFO:root:1606841102.162655: Completed task with ID :0_M1 2
+INFO:root:1606841102.337922: Completed task with ID :2_M1 1
+INFO:root:1606841102.86811: Recieved Job from requests.py with ID :3
+INFO:root:1606841102.8692114: Sending Task request to Worker on port :4000: with task_id :3_M0
+INFO:root:1606841102.869274: Sending Task request to Worker on port :4001: with task_id :3_M1
+INFO:root:1606841102.8696384: Sending Task request to Worker on port :4000: with task_id :3_M2
+INFO:root:1606841102.869919: Sending Task request to Worker on port :4000: with task_id :3_M3
+INFO:root:1606841103.1631901: Completed task with ID :0_M2 3
+INFO:root:1606841103.3073652: Completed task with ID :1_M0 1
+INFO:root:1606841103.870119: Completed task with ID :3_M0 1
+INFO:root:1606841103.8710568: Completed task with ID :3_M1 2
+INFO:root:1606841103.8725212: Completed task with ID :3_M3 1
+INFO:root:1606841104.1652412: Completed task with ID :0_M0 1
+INFO:root:1606841104.1784415: Sending Task request to Worker on port :4001: with task_id :0_R1
+INFO:root:1606841104.1792476: Sending Task request to Worker on port :4002: with task_id :0_R0
+INFO:root:1606841104.3385193: Completed task with ID :2_M3 3
+INFO:root:1606841104.6889036: Recieved Job from requests.py with ID :4
+INFO:root:1606841104.6895533: Sending Task request to Worker on port :4000: with task_id :4_M0
+INFO:root:1606841105.180749: Completed task with ID :0_R0 3
+INFO:root:1606841105.2763698: Recieved Job from requests.py with ID :5
+INFO:root:1606841105.276869: Sending Task request to Worker on port :4001: with task_id :5_M0
+INFO:root:1606841105.2773137: Sending Task request to Worker on port :4002: with task_id :5_M1
+INFO:root:1606841105.2779052: Sending Task request to Worker on port :4000: with task_id :5_M2
+INFO:root:1606841105.3067787: Completed task with ID :1_M1 2
+INFO:root:1606841105.318366: Sending Task request to Worker on port :4001: with task_id :1_R0
+INFO:root:1606841105.338846: Completed task with ID :2_M0 3
+INFO:root:1606841105.3392212: Completed task with ID :2_M2 2
+INFO:root:1606841105.3576505: Sending Task request to Worker on port :4002: with task_id :2_R0
+INFO:root:1606841105.848973: Recieved Job from requests.py with ID :6
+INFO:root:1606841105.849431: Sending Task request to Worker on port :4000: with task_id :6_M0
+INFO:root:1606841105.8495116: Sending Task request to Worker on port :4001: with task_id :6_M1
+INFO:root:1606841105.8499486: Sending Task request to Worker on port :4002: with task_id :6_M2
+INFO:root:1606841105.8502815: Sending Task request to Worker on port :4000: with task_id :6_M3
+INFO:root:1606841105.8707774: Completed task with ID :3_M2 1
+INFO:root:1606841105.8830066: Sending Task request to Worker on port :4001: with task_id :3_R0
+INFO:root:1606841105.9326925: Recieved Job from requests.py with ID :7
+INFO:root:1606841105.933217: Sending Task request to Worker on port :4000: with task_id :7_M0
+INFO:root:1606841106.7725992: Recieved Job from requests.py with ID :8
+INFO:root:1606841106.7733147: Sending Task request to Worker on port :4001: with task_id :8_M0
+INFO:root:1606841106.7738674: Sending Task request to Worker on port :4001: with task_id :8_M1
+INFO:root:1606841106.8507395: Completed task with ID :6_M0 1
+INFO:root:1606841106.8512049: Completed task with ID :6_M1 2
+INFO:root:1606841106.8629737: Sending Task request to Worker on port :4000: with task_id :8_M2
+INFO:root:1606841106.8635297: Sending Task request to Worker on port :4001: with task_id :8_M3
+INFO:root:1606841107.0491753: Recieved Job from requests.py with ID :9
+INFO:root:1606841107.2789845: Completed task with ID :5_M0 2
+INFO:root:1606841107.2851117: Sending Task request to Worker on port :4001: with task_id :9_M0
+INFO:root:1606841107.3223555: Completed task with ID :1_R0 2
+INFO:root:1606841107.3337755: Completed Job :1
+INFO:root:1606841107.343329: Sending Task request to Worker on port :4001: with task_id :9_M1
+INFO:root:1606841107.360162: Completed task with ID :2_R0 3
+INFO:root:1606841107.3779132: Completed Job :2
+INFO:root:1606841107.3880873: Sending Task request to Worker on port :4002: with task_id :9_M2
+INFO:root:1606841107.6910396: Completed task with ID :4_M0 1
+INFO:root:1606841107.7056236: Sending Task request to Worker on port :4000: with task_id :9_M3
+INFO:root:1606841108.1821434: Completed task with ID :0_R1 2
+INFO:root:1606841108.1937099: Completed Job :0
+INFO:root:1606841108.1998022: Sending Task request to Worker on port :4001: with task_id :4_R0
+INFO:root:1606841108.2792716: Completed task with ID :5_M2 1
+INFO:root:1606841108.7751856: Completed task with ID :8_M1 2
+INFO:root:1606841108.8550787: Completed task with ID :6_M3 1
+INFO:root:1606841108.8658855: Completed task with ID :8_M2 1
+INFO:root:1606841109.2821796: Completed task with ID :5_M1 3
+INFO:root:1606841109.2882876: Sending Task request to Worker on port :4000: with task_id :5_R1
+INFO:root:1606841109.2885997: Sending Task request to Worker on port :4001: with task_id :5_R0
+INFO:root:1606841109.3897219: Completed task with ID :9_M2 3
+INFO:root:1606841109.774563: Completed task with ID :8_M0 2
+INFO:root:1606841109.854933: Completed task with ID :6_M2 3
+INFO:root:1606841109.8676012: Completed task with ID :8_M3 2
+INFO:root:1606841109.868612: Sending Task request to Worker on port :4002: with task_id :6_R1
+INFO:root:1606841109.8698137: Sending Task request to Worker on port :4000: with task_id :6_R0
+INFO:root:1606841109.8879511: Completed task with ID :3_R0 2
+INFO:root:1606841109.8886366: Completed Job :3
+INFO:root:1606841109.8889356: Sending Task request to Worker on port :4001: with task_id :8_R0
+INFO:root:1606841109.934562: Completed task with ID :7_M0 1
+INFO:root:1606841109.9475644: Sending Task request to Worker on port :4002: with task_id :7_R1
+INFO:root:1606841109.9488173: Sending Task request to Worker on port :4000: with task_id :7_R0
+INFO:root:1606841110.2022345: Completed task with ID :4_R0 2
+INFO:root:1606841110.2081752: Completed Job :4
+INFO:root:1606841110.3460665: Completed task with ID :9_M1 2
+INFO:root:1606841110.7111273: Completed task with ID :9_M3 1
+INFO:root:1606841110.9498243: Completed task with ID :7_R1 3
+INFO:root:1606841111.2900195: Completed task with ID :9_M0 2
+INFO:root:1606841111.2903519: Completed task with ID :5_R1 1
+INFO:root:1606841111.2966008: Sending Task request to Worker on port :4001: with task_id :9_R0
+INFO:root:1606841111.870044: Completed task with ID :6_R1 3
+INFO:root:1606841112.890353: Completed task with ID :8_R0 2
+INFO:root:1606841112.90355: Completed Job :8
+INFO:root:1606841112.951546: Completed task with ID :7_R0 1
+INFO:root:1606841112.9627242: Completed Job :7
+INFO:root:1606841113.2929072: Completed task with ID :5_R0 2
+INFO:root:1606841113.2988527: Completed task with ID :9_R0 2
+INFO:root:1606841113.3056297: Completed Job :5
+INFO:root:1606841113.3288407: Completed Job :9
+INFO:root:1606841113.8739014: Completed task with ID :6_R0 1
+INFO:root:1606841113.8855608: Completed Job :6
