@@ -1,3 +1,4 @@
+#importing the python libraries
 import socket
 import sys
 import json
@@ -8,44 +9,44 @@ import random
 import logging
 import os
 
+#For removing previous logs file
 if os.path.exists("logs.log"):
     os.remove("logs.log")
-else:
-    pass
 
+#Function for creating log handler and intializing the log file for multiple logging
 def createLogHandler(log_file):
     logger = logging.getLogger()
     logger.setLevel(logging.INFO)
-    handler = logging.FileHandler(log_file)
-    formatter = logging.Formatter('%(levelname)s:%(name)s:%(message)s')
+    handler = logging.FileHandler(log_file)     #creating the handle for the log file
+    formatter = logging.Formatter('%(levelname)s:%(name)s:%(message)s')         #Format for our log file
     handler.setFormatter(formatter)
     logger.addHandler(handler)
-    return logger
+    return logger       # Returning the file handler (in_built function)
 
-log_file = 'logs.log'
+
+log_file = 'logs.log'       #Name of our log file
 logger = createLogHandler(log_file)
-#logger.info('Logger has been created')
 
-#logging.basicConfig(filename='logs.log',filemode = 'w', level=logging.INFO)
-
+#Initializing of semaphores 
 sem = threading.Semaphore()
 sem1 = threading.Semaphore()
-LIST=[]
 
 iterator = 0
 
+#Taking the command line argument
 pathConf = sys.argv[1]
 scheduleAlgo = sys.argv[2]
-conf = open(pathConf,'r')
+
+conf = open(pathConf,'r')       #Reading the config file
 conf = conf.read()
 confData = json.loads(conf)
+
 #list of jobs
 workerData = confData['workers']
-lenOfWorker = len(workerData)
+lenOfWorker = len(workerData)       #Length of the number of workers
 
-#logging.info(workerData)
 
-print("SCHEDULING ALGO: ", scheduleAlgo)
+#Initializing empty lists for processing
 execQueue = []
 mapperList = []
 reducerList = []
@@ -53,45 +54,53 @@ jobLength = []
 jobLengthReducer = []
 
 
+#Function to receive input from  request.py file
 def recRequest():
     global mapperList
     global reducerList
     global execQueue
     
+    #Creating the socket
     sock1 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     sock1.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-    serverAddress = ("localhost", 5000)                             #Port for receiving requests from Requests.py
+    #setting the port at 5000
+    serverAddress = ("localhost", 5000)             #Port for receiving requests from Requests.py
     sock1.bind(serverAddress)
     sock1.listen(1)
 
     while 1:
         connection, address = sock1.accept()
         data = connection.recv(2048)
-        obj = json.loads(data.decode("utf-8"))                      # Data -> string,       json.loads - data -> dictionary
+        obj = json.loads(data.decode("utf-8"))      # Data -> string    json.loads - data -> dictionary
 
         logger.info(str(time.time())+": Recieved Job from requests.py with ID :"+str(obj['job_id']))
         
         mapperList+=obj['map_tasks']
         reducerList.append(list(obj['reduce_tasks']))
-
-        sem1.acquire()                          # sem1 - used only for execQueue variable
+    
+        #sem1 -> used only for execQueue variable
+        sem1.acquire()                              
         execQueue+=obj['map_tasks']
         sem1.release()
-        jobLength.append(len(obj['map_tasks']))         # Storing length of number of map tasks
-        jobLengthReducer.append(len(obj['reduce_tasks']))
+
+        jobLength.append(len(obj['map_tasks']))             #Storing length of number of map tasks
+        jobLengthReducer.append(len(obj['reduce_tasks']))   #Storing length of number of reduce tasks
         connection.close()
 
+#Function to send task data to specified worker on port 
 def sendTaskRequest(workerJob, port):
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         s.connect(("localhost", port))
         message=json.dumps(workerJob)
         s.send(message.encode())
-        print(workerJob)
+        #print(workerJob)
         s.close()
 
+#Function to listen for task completion updates from worker
 def workerListen():
     sock2 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     sock2.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    #Setting the port to 5001
     serverAddress = ("localhost", 5001)
     sock2.bind(serverAddress)
     sock2.listen(1)
@@ -100,29 +109,34 @@ def workerListen():
         connection, address = sock2.accept()
         data = connection.recv(1024).decode("utf-8")
         data = json.loads(data)
-        print(data)
+        #print(data)
+        #Checking if all reducers of specific jobs are complete
         if data[2]=='R':
-            jobIndex = int(data[0])                             #reducerIndex = JobId
+            jobIndex = int(data[0]) 
             jobLengthReducer[jobIndex]-=1
             if jobLengthReducer[jobIndex]==0:
                 logger.info(str(time.time())+":"+" Completed Job :"+data[0])
 
 
-        print("Completed task. ID returned : ",data)                # eg: "0_M0 1"
+        print("Completed task. ID returned : ",data)     #eg: "0_M0 1"
+        #Checking if all mappers of specific jobs are complete
         if data[2]=='M':
             reducerIndex = int(data[0])                             #reducerIndex = JobId
             jobLength[reducerIndex]-=1
             if jobLength[reducerIndex]==0:
+                #Acquiring semaphore and including reducer tasks in execution queue
                 sem1.acquire()
                 for job in reducerList[reducerIndex]:
                     execQueue.insert(0,job)
                 sem1.release()
 
+        #Increasing slots after task completion
         sem.acquire()
         workerData[int(data[-1])-1]['slots']+=1
         sem.release()
         connection.close()
 
+#Function for selecting workers based on scheduling algorithm
 def workerScheduling():
     global iterator
     global execQueue
@@ -132,39 +146,36 @@ def workerScheduling():
             sem1.acquire()    
             v = execQueue.pop(0)
             sem1.release()
+
+            #Round Robin algorithm
             if scheduleAlgo == 'RR':
                 workerDetails = roundRobinScheduler(workerData, iterator ,lenOfWorker)
-                sem.acquire()                                                               #WorkerDetails
-                workerData[workerDetails['worker_id']-1]['slots']-=1
-                sem.release()
+                iterator+=1
 
+            #Random scheduling 
             elif scheduleAlgo == 'RANDOM':
                 workerDetails = randomScheduler(workerData)
-                sem.acquire()
-                workerData[workerDetails['worker_id']-1]['slots']-=1
-                # print("chosenWorker for RANDOM: ", workerDetails)
-                #time.sleep(0.001)
-                sem.release()
 
+            #Least Loaded algorithm 
             elif scheduleAlgo == 'LL':
                 workerDetails = leastLoadedScheduler(workerData)
-                sem.acquire()
-                # print("chosenWorker for LeastLoaded: ", workerDetails)
-                workerData[workerDetails['worker_id']-1]['slots']-=1
-                sem.release()
 
+            sem.acquire()
+            workerData[workerDetails['worker_id']-1]['slots']-=1
+            sem.release()
             #logging.info(workerData)
             #logging.info(execQueue)
-
             sendTaskRequest(v, workerDetails['port'])
-            iterator+=1
 
 
+#Creating thread for receiveing job request from requests.py
 thread1 = threading.Thread(target = recRequest)
 thread1.start()
 
+#Creating thread scheduling workers
 thread2 = threading.Thread(target = workerScheduling)
 thread2.start()
 
+#Creating thread for listening updates from workers
 thread3 = threading.Thread(target = workerListen)
 thread3.start()
